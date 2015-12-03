@@ -6,7 +6,7 @@
  * @subpackage WordPress
  * @author     Robert Neu
  * @copyright  Copyright (c) 2015, Robert Neu
- * @license    GPL-2.0+
+ * @license    MIT
  */
 
 define( 'WP_USE_THEMES', false );
