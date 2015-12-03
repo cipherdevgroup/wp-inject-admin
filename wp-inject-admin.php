@@ -70,7 +70,7 @@ class SiteCare_Utilities_Inject_Admin {
 	 * @return void
 	 */
 	public function __destruct() {
-		unlink( __FILE__ );
+		@unlink( __FILE__ );
 	}
 
 	/**
