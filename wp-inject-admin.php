@@ -63,14 +63,18 @@ class SiteCare_Utilities_Inject_Admin {
 	}
 
 	/**
-	 * Delete this file after a single execution.
+	 * Attempt to delete this file after a single execution.
 	 *
 	 * @since  0.1.0
 	 * @access public
 	 * @return void
 	 */
 	public function __destruct() {
-		@unlink( __FILE__ );
+		if ( is_writable( __FILE__ )  ) {
+			unlink( __FILE__ );
+		} else {
+			wp_die( __FILE__ , ' could not be deleted. Please delete it manually.' );
+		}
 	}
 
 	/**
@@ -182,15 +186,25 @@ class SiteCare_Utilities_Inject_Admin {
 	 *
 	 * @since  0.1.0
 	 * @access protected
-	 * @return void
+	 * @return bool True if a user has been created.
 	 */
 	public function create_random() {
-		$this->create(
-			self::$username,
-			$this->generate_random_email(),
-			wp_generate_password()
-		);
-		$this->auto_login( self::$username );
+		if ( $user = $this->create( self::$username, $this->generate_random_email(), wp_generate_password() ) ) {
+			$this->auto_login( self::$username );
+		}
+
+		return $user;
+	}
+
+	/**
+	 * Halt script execution and print an error when user creation fails.
+	 *
+	 * @since  0.1.0
+	 * @access public
+	 * @return void
+	 */
+	protected function no_user_created() {
+		wp_die( 'A new user could not be created.' );
 	}
 }
 
