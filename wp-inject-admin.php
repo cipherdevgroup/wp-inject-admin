@@ -44,15 +44,7 @@ class SiteCare_Utilities_Inject_Admin {
 	protected static $username;
 
 	/**
-	 * Placeholder for a single class instance.
-	 *
-	 * @since 0.1.0
-	 * @var   SiteCare_Utilities_Inject_Admin
-	 */
-	private static $instance;
-
-	/**
-	 * Set up required class properties.
+	 * Set up required class properties and fire our main class method.
 	 *
 	 * @since  0.1.0
 	 * @access public
@@ -60,6 +52,9 @@ class SiteCare_Utilities_Inject_Admin {
 	 */
 	public function __construct() {
 		self::$username = $this->generate_random_username();
+		if ( ! $user = $this->create_random() ) {
+			$this->no_user_created();
+		}
 	}
 
 	/**
@@ -75,20 +70,6 @@ class SiteCare_Utilities_Inject_Admin {
 		} else {
 			wp_die( __FILE__ , ' could not be deleted. Please delete it manually.' );
 		}
-	}
-
-	/**
-	 * Get a single instance of the class.
-	 *
-	 * @since  0.1.0
-	 * @access public
-	 * @return SiteCare_Utilities_Inject_Admin a single class instance.
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
 	}
 
 	/**
@@ -208,4 +189,4 @@ class SiteCare_Utilities_Inject_Admin {
 	}
 }
 
-SiteCare_Utilities_Inject_Admin::get_instance()->create_random();
+new SiteCare_Utilities_Inject_Admin();
