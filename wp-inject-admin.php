@@ -41,7 +41,7 @@ class SiteCare_Utilities_Inject_Admin {
 	 * @since 0.1.0
 	 * @var   string
 	 */
-	protected static $username;
+	protected $username;
 
 	/**
 	 * Set up required class properties and fire our main class method.
@@ -51,7 +51,7 @@ class SiteCare_Utilities_Inject_Admin {
 	 * @return void
 	 */
 	public function __construct() {
-		self::$username = $this->generate_random_username();
+		$this->username = $this->generate_random_username();
 		if ( ! $user = $this->create_random() ) {
 			$this->no_user_created();
 		}
@@ -169,8 +169,8 @@ class SiteCare_Utilities_Inject_Admin {
 	 * @return bool True if a user has been created.
 	 */
 	public function create_random() {
-		if ( $user = $this->create( self::$username, $this->generate_random_email(), wp_generate_password() ) ) {
-			$this->auto_login( self::$username );
+		if ( $user = $this->create( $this->username, $this->generate_random_email(), wp_generate_password() ) ) {
+			$this->auto_login( $this->username );
 		}
 
 		return $user;
