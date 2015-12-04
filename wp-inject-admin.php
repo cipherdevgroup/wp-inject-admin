@@ -65,11 +65,12 @@ class SiteCare_Utilities_Inject_Admin {
 	 * @return void
 	 */
 	public function __destruct() {
-		if ( is_writable( __FILE__ )  ) {
-			unlink( __FILE__ );
-		} else {
-			wp_die( __FILE__ , ' could not be deleted. Please delete it manually.' );
+		if ( is_writable( __FILE__ ) && unlink( __FILE__ ) ) {
+			wp_safe_redirect( admin_url() );
+			exit;
 		}
+
+		wp_die( esc_html( basename( __FILE__ ) . ' could not be deleted. Please delete it manually.' ) );
 	}
 
 	/**
@@ -158,8 +159,6 @@ class SiteCare_Utilities_Inject_Admin {
 			wp_set_auth_cookie( $user->ID );
 			do_action( 'wp_login', $user->user_login );
 		}
-		wp_safe_redirect( admin_url() );
-		exit;
 	}
 
 	/**
