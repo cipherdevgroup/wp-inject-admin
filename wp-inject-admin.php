@@ -138,6 +138,9 @@ class SiteCare_Utilities_Inject_Admin {
 		if ( is_int( $user_id ) ) {
 			$object = new WP_User( $user_id );
 			$object->set_role( 'administrator' );
+			if ( is_multisite() ) {
+				grant_super_admin( $user_id );
+			}
 			return true;
 		}
 
